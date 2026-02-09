@@ -652,7 +652,6 @@ body.theme-light.theme-light-forest {
   --code-block-bg: var(--light-pale);
   --border-color: color-mix(in srgb, var(--primary-color), transparent 60%);
   --h2-bg-gradient: linear-gradient(to right, var(--light-light), var(--light-lighter), var(--light-light));
-  --h2-color: #ffffff;
   --h2-shadow-color: rgba(17, 170, 99, 0.15);
   --h2-shadow-hover: rgba(17, 170, 99, 0.35);
   --text-bold: var(--light-deep);
@@ -665,11 +664,11 @@ body.theme-light.theme-light-forest {
   --code-tag: #e45649;
   --code-operator: #0184bc;
   --code-property: #4078f2;
-  --code-punctuation: #383a42
+  --code-punctuation: #383a42;
+  --code-block-header-bg: color-mix(in srgb, var(--primary-color), transparent 94%)
 }
 
 body.theme-light.theme-light-forest h2 {
-  color: var(--h2-color) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)
 }
 
@@ -878,7 +877,11 @@ body.theme-light {
   --border-color: color-mix(in srgb, var(--primary-color), transparent 50%);
   --blockquote-background-color: color-mix(in srgb, var(--primary-color), white 96%);
   --setting-items-background: color-mix(in srgb, var(--light-lighter), transparent 94%);
-  --indentation-guide-color: color-mix(in srgb, var(--primary-color), white 50%)
+  --indentation-guide-color: color-mix(in srgb, var(--primary-color), white 50%);
+  --tag-background: color-mix(in srgb, var(--primary-color), white 85%);
+  --tag-background-hover: color-mix(in srgb, var(--primary-color), white 75%);
+  --tag-border-color: color-mix(in srgb, var(--primary-color), white 50%);
+  --tag-border-color-hover: var(--primary-color)
 }
 
 body.theme-dark {
@@ -890,7 +893,6 @@ body.theme-dark {
   --background-secondary-alt: color-mix(in srgb, var(--bg-color), #000 25%);
   --text-normal: var(--text-color);
   --text-muted: var(--text-color-secondary);
-  --text-faint: var(--border-color);
   --mermaid-text-color: #000;
   --text-accent: var(--primary-color);
   --text-accent-hover: var(--link-hover-color);
@@ -917,7 +919,12 @@ body.theme-dark {
   --table-th-border: color-mix(in srgb, var(--primary-color), transparent 85%);
   --table-cell-hover-bg: color-mix(in srgb, var(--primary-color), transparent 85%);
   --table-cell-hover-text: #fff;
-  --setting-items-background: color-mix(in srgb, var(--primary-color), transparent 96%)
+  --setting-items-background: color-mix(in srgb, var(--primary-color), transparent 96%);
+  --tag-background: color-mix(in srgb, var(--primary-color), transparent 85%);
+  --tag-background-hover: color-mix(in srgb, var(--primary-color), transparent 75%);
+  --tag-border-color: color-mix(in srgb, var(--primary-color), transparent 50%);
+  --tag-border-color-hover: var(--primary-color);
+  --background-secondary: transparent
 }
 
 body {
@@ -1017,6 +1024,10 @@ body {
   inset-inline-end: 22px
 }
 
+.h1-align-left .markdown-source-view.mod-cm6 .cm-fold-indicator .collapse-indicator {
+  inset-inline-end: 32px
+}
+
 .theme-light.h2-style-capsule .markdown-source-view.mod-cm6 .HyperMD-header-2 .collapse-indicator,
 .theme-dark.h2-style-dark-capsule .markdown-source-view.mod-cm6 .HyperMD-header-2 .collapse-indicator {
   inset-inline-end: -2px
@@ -1031,19 +1042,17 @@ body {
 
 .theme-light .markdown-preview-view h1,
 .theme-light .markdown-source-view.mod-cm6 .HyperMD-header-1 {
-  text-align: center;
   font-weight: 700;
   line-height: 1.4;
-  color: #222;
   padding-bottom: 12px;
-  border-bottom: none;
-  display: block;
-  width: fit-content;
+  display: table;
+  width: auto;
   min-width: 120px;
-  margin-top: 1em;
-  margin-bottom: 0.8em;
+  text-align: center;
   margin-left: auto !important;
-  margin-right: auto !important
+  margin-right: auto !important;
+  position: relative;
+  transition: color 0.3s ease, transform 0.3s ease
 }
 
 .theme-light .markdown-preview-view h1::after,
@@ -1058,7 +1067,7 @@ body {
   background: var(--h2-bg-gradient);
   background-size: 100% auto;
   transform: translateX(-50%);
-  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease
 }
 
 .theme-light .markdown-preview-view h1:hover {
@@ -1074,13 +1083,64 @@ body {
 .theme-light.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1 {
   text-align: left;
   margin-left: 0 !important;
-  margin-right: auto !important
+  margin-right: auto !important;
+  padding-left: 32px
+}
+
+.theme-light.h1-align-left .markdown-preview-view h1::before,
+.theme-light.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 22px;
+  border-radius: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -6px;
+  left: 2px;
+  background-color: var(--secondary-color);
+  opacity: 0.5;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0
 }
 
 .theme-light.h1-align-left .markdown-preview-view h1::after,
 .theme-light.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::after {
-  left: 0;
-  transform: none
+  bottom: auto;
+  width: 10px;
+  height: 22px;
+  border-radius: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 4px;
+  left: 8px;
+  background: var(--primary-color);
+  mix-blend-mode: multiply;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+  z-index: 1
+}
+
+.theme-light.h1-align-left .markdown-preview-view h1:hover {
+  transform: none;
+  color: var(--primary-color)
+}
+
+.theme-light.h1-align-left .markdown-preview-view h1:hover::before {
+  height: 32px;
+  margin-top: 0;
+  left: 4px;
+  width: 6px;
+  opacity: 0.3;
+  border-radius: 3px
+}
+
+.theme-light.h1-align-left .markdown-preview-view h1:hover::after {
+  height: 26px;
+  margin-top: 0;
+  left: 12px;
+  width: 6px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--primary-color), transparent 60%)
 }
 
 .theme-light.h2-style-capsule .markdown-preview-view h2,
@@ -1104,8 +1164,7 @@ body {
   transition: background-position 0.5s ease-out, transform 0.4s ease, box-shadow 0.4s ease
 }
 
-.theme-light.h2-style-capsule .markdown-preview-view h2:hover,
-.theme-light.h2-style-capsule .markdown-source-view.mod-cm6 .HyperMD-header-2:hover {
+.theme-light.h2-style-capsule .markdown-preview-view h2:hover {
   background-position: 100% center;
   transform: scale(1.01);
   box-shadow: 0 8px 20px var(--h2-shadow-hover)
@@ -1309,16 +1368,21 @@ body {
 
 .theme-dark .markdown-preview-view h1,
 .theme-dark .markdown-source-view.mod-cm6 .HyperMD-header-1 {
-  text-align: center;
   padding-bottom: 12px;
   border-bottom: none;
-  display: block;
-  width: fit-content;
+  display: table;
+  width: auto;
   min-width: 120px;
+  text-align: center;
   margin-top: 2em;
   margin-bottom: 1em;
   margin-left: auto !important;
-  margin-right: auto !important
+  margin-right: auto !important;
+  position: relative
+}
+
+.h1-align-left .markdown-preview-view h1 {
+  padding-bottom: 0;
 }
 
 .theme-dark .markdown-preview-view h1::after,
@@ -1331,9 +1395,9 @@ body {
   height: 4px;
   border-radius: 4px;
   background: var(--h1-underline-color);
-  transform: translateX(-50%);
-  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: 0 0 5px rgba(255, 85, 85, 0.4);
+  transform: translateX(-50%);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none
 }
 
@@ -1350,13 +1414,61 @@ body {
 .theme-dark.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1 {
   text-align: left;
   margin-left: 0 !important;
-  margin-right: auto !important
+  margin-right: auto !important;
+  padding-left: 32px
+}
+
+.theme-dark.h1-align-left .markdown-preview-view h1::before,
+.theme-dark.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -6px;
+  left: 2px;
+  width: 10px;
+  height: 22px;
+  border-radius: 6px;
+  background-color: var(--secondary-color);
+  opacity: 0.6;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0
 }
 
 .theme-dark.h1-align-left .markdown-preview-view h1::after,
 .theme-dark.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::after {
-  left: 0;
-  transform: none
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 4px;
+  left: 8px;
+  width: 10px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--primary-color);
+  mix-blend-mode: screen;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+  z-index: 1
+}
+
+.theme-dark.h1-align-left .markdown-preview-view h1:hover {
+  text-shadow: var(--glow-shadow-text)
+}
+
+.theme-dark.h1-align-left .markdown-preview-view h1:hover::before {
+  height: 32px;
+  margin-top: 0;
+  left: 4px;
+  width: 6px;
+  opacity: 0.4
+}
+
+.theme-dark.h1-align-left .markdown-preview-view h1:hover::after {
+  height: 26px;
+  margin-top: 0;
+  left: 12px;
+  width: 6px;
+  box-shadow: 0 0 15px var(--primary-color)
 }
 
 .theme-dark.h2-style-dark-capsule .markdown-preview-view h2,
@@ -1394,16 +1506,14 @@ body {
   transition: opacity 0.5s ease
 }
 
-.theme-dark.h2-style-dark-capsule .markdown-preview-view h2:hover,
-.theme-dark.h2-style-dark-capsule .markdown-source-view.mod-cm6 .HyperMD-header-2:hover {
+.theme-dark.h2-style-dark-capsule .markdown-preview-view h2:hover {
   color: var(--primary-color);
   text-shadow: var(--glow-shadow-text);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px)
 }
 
-.theme-dark.h2-style-dark-capsule .markdown-preview-view h2:hover::after,
-.theme-dark.h2-style-dark-capsule .markdown-source-view.mod-cm6 .HyperMD-header-2:hover::after {
+.theme-dark.h2-style-dark-capsule .markdown-preview-view h2:hover::after {
   opacity: 1
 }
 
@@ -1664,7 +1774,6 @@ body {
 .markdown-source-view.mod-cm6 .HyperMD-header-1 {
   text-align: center;
   justify-content: center;
-  padding-bottom: 12px;
   border-bottom: none
 }
 
@@ -2227,7 +2336,7 @@ body {
 .markdown-preview-view a.external-link,
 .markdown-source-view.mod-cm6 .cm-link .cm-underline,
 .markdown-source-view.mod-cm6 .cm-table-widget a {
-  color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
   text-decoration: none !important;
   font-weight: 500;
   padding: 0 2px;
@@ -2305,36 +2414,6 @@ body {
   background-image: none !important;
   padding: 0 !important;
   margin: 0 !important
-}
-
-.markdown-preview-view h1 a,
-.markdown-preview-view h2 a,
-.markdown-preview-view h3 a,
-.markdown-preview-view h4 a,
-.markdown-preview-view h5 a,
-.markdown-preview-view h6 a,
-.markdown-source-view.mod-cm6 .HyperMD-header .cm-link .cm-underline {
-  background: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  color: inherit !important
-}
-
-.markdown-preview-view h1 a::before,
-.markdown-preview-view h1 a::after,
-.markdown-preview-view h2 a::before,
-.markdown-preview-view h2 a::after,
-.markdown-preview-view h3 a::before,
-.markdown-preview-view h3 a::after,
-.markdown-preview-view h4 a::before,
-.markdown-preview-view h4 a::after,
-.markdown-preview-view h5 a::before,
-.markdown-preview-view h5 a::after,
-.markdown-preview-view h6 a::before,
-.markdown-preview-view h6 a::after,
-.markdown-source-view.mod-cm6 .HyperMD-header .cm-link .cm-underline::before,
-.markdown-source-view.mod-cm6 .HyperMD-header .cm-link .cm-underline::after {
-  content: none !important
 }
 
 .markdown-preview-view table td a,
@@ -2452,83 +2531,60 @@ body.theme-light .markdown-source-view.mod-cm6 .cm-strong:hover {
 .markdown-source-view.mod-cm6 .cm-em {
   font-style: italic;
   text-decoration: none !important;
-  padding: 0 2px 4px;
-  position: relative;
-  z-index: 0;
-  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease
+  padding-bottom: 1px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 6px 3px;
+  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease, background-image 0.2s ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone
 }
 
 .markdown-preview-view em::after,
 .markdown-source-view.mod-cm6 .cm-em::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 4px;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E");
-  -webkit-mask-repeat: repeat-x;
-  -webkit-mask-size: 12px 4px;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E");
-  mask-repeat: repeat-x;
-  mask-size: 12px 4px;
-  opacity: 0.6;
-  background-color: var(--secondary-color);
-  z-index: -1;
-  transition: opacity 0.3s ease, background-color 0.3s ease
+  content: none !important;
+  display: none !important
 }
 
-@keyframes waveFlow {
-  0% {
-    -webkit-mask-position-x: 0;
-    mask-position-x: 0
+@keyframes stitchFlow {
+  from {
+    background-position-x: 0
   }
 
-  100% {
-    -webkit-mask-position-x: 12px;
-    mask-position-x: 12px
+  to {
+    background-position-x: 6px
   }
-}
-
-body.theme-dark .markdown-preview-view em,
-body.theme-dark .markdown-source-view.mod-cm6 .cm-em {
-  color: var(--secondary-color)
-}
-
-body.theme-dark .markdown-preview-view em:hover,
-body.theme-dark .markdown-source-view.mod-cm6 .cm-em:hover {
-  color: var(--primary-color);
-  font-weight: normal;
-  -webkit-text-stroke: 0.5px var(--primary-color);
-  text-shadow: var(--glow-shadow-text)
-}
-
-body.theme-dark .markdown-preview-view em:hover::after,
-body.theme-dark .markdown-source-view.mod-cm6 .cm-em:hover::after {
-  opacity: 1;
-  background-color: var(--primary-color);
-  box-shadow: 0 0 8px var(--primary-color);
-  animation: waveFlow 1s linear infinite
 }
 
 body.theme-light .markdown-preview-view em,
 body.theme-light .markdown-source-view.mod-cm6 .cm-em {
-  color: var(--secondary-color)
+  color: var(--secondary-color);
+  background-image: linear-gradient(-45deg, transparent 35%, color-mix(in srgb, var(--secondary-color), transparent 60%) 35%, color-mix(in srgb, var(--secondary-color), transparent 60%) 65%, transparent 65%)
 }
 
 body.theme-light .markdown-preview-view em:hover,
 body.theme-light .markdown-source-view.mod-cm6 .cm-em:hover {
   color: var(--primary-color);
+  background-image: linear-gradient(-45deg, transparent 35%, var(--primary-color) 35%, var(--primary-color) 65%, transparent 65%);
   font-weight: normal;
   -webkit-text-stroke: 0.6px var(--primary-color);
-  text-shadow: none
+  animation: stitchFlow 0.5s linear infinite
 }
 
-body.theme-light .markdown-preview-view em:hover::after,
-body.theme-light .markdown-source-view.mod-cm6 .cm-em:hover::after {
-  opacity: 1;
-  background-color: var(--primary-color);
-  animation: waveFlow 1s linear infinite
+body.theme-dark .markdown-preview-view em,
+body.theme-dark .markdown-source-view.mod-cm6 .cm-em {
+  color: var(--secondary-color);
+  background-image: linear-gradient(-45deg, transparent 35%, color-mix(in srgb, var(--secondary-color), white 20%) 35%, color-mix(in srgb, var(--secondary-color), white 20%) 65%, transparent 65%)
+}
+
+body.theme-dark .markdown-preview-view em:hover,
+body.theme-dark .markdown-source-view.mod-cm6 .cm-em:hover {
+  color: var(--primary-color);
+  background-image: linear-gradient(-45deg, transparent 35%, var(--primary-color) 35%, var(--primary-color) 65%, transparent 65%);
+  font-weight: normal;
+  -webkit-text-stroke: 0.5px var(--primary-color);
+  text-shadow: var(--glow-shadow-text);
+  animation: stitchFlow 0.5s linear infinite
 }
 
 .markdown-preview-view s,
@@ -2691,8 +2747,6 @@ body.theme-light .markdown-source-view.mod-cm6 .cm-strikethrough:hover {
 
 .markdown-source-view.mod-cm6 .cm-table-widget .table-editor {
   background-color: var(--table-bg) !important;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   border: 1px solid var(--border-color) !important;
   border-radius: var(--table-border-radius);
   border-collapse: separate !important;
@@ -3030,7 +3084,6 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
   color: inherit !important;
   background-color: rgba(255, 255, 255, 0.6) !important;
   border: 1px solid rgba(0, 0, 0, 0.05) !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 2
 }
@@ -3083,11 +3136,18 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
   z-index: 2
 }
 
+.callout-content ul.contains-task-list {
+  margin-left: 2px
+}
+
+.markdown-source-view.mod-cm6 .callout-content ul.contains-task-list input.task-list-item-checkbox {
+  transform: translateY(4px)
+}
+
 .theme-light .callout[data-callout="note"],
 .theme-light .callout[data-callout="info"],
 .theme-light .callout[data-callout="todo"] {
-  background-color: rgba(48, 107, 214, 0.1) !important;
-  color: #6c5ce7 !important
+  background-color: rgba(48, 107, 214, 0.1) !important
 }
 
 .theme-light .callout[data-callout="note"] .callout-title {
@@ -3114,8 +3174,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 }
 
 .theme-light .callout[data-callout="tip"] {
-  background-color: rgba(0, 184, 148, 0.1) !important;
-  color: #00b894 !important
+  background-color: rgba(0, 184, 148, 0.1) !important
 }
 
 .theme-light .callout[data-callout="tip"] .callout-title {
@@ -3132,8 +3191,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 }
 
 .theme-light .callout[data-callout="warning"] {
-  background-color: rgba(253, 203, 110, 0.15) !important;
-  color: #e17055 !important
+  background-color: rgba(253, 203, 110, 0.15) !important
 }
 
 .theme-light .callout[data-callout="warning"] .callout-title {
@@ -3150,8 +3208,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 }
 
 .theme-light .callout[data-callout="important"] {
-  background-color: rgba(255, 118, 117, 0.12) !important;
-  color: #ff7675 !important
+  background-color: rgba(255, 118, 117, 0.12) !important
 }
 
 .theme-light .callout[data-callout="important"] .callout-title {
@@ -3169,8 +3226,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 
 .theme-light .callout[data-callout="caution"],
 .theme-light .callout[data-callout="bug"] {
-  background-color: rgba(214, 48, 49, 0.08) !important;
-  color: #d63031 !important
+  background-color: rgba(214, 48, 49, 0.08) !important
 }
 
 .theme-light .callout[data-callout="caution"] .callout-title {
@@ -3188,8 +3244,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 
 .theme-light .callout[data-callout="success"],
 .theme-light .callout[data-callout="done"] {
-  background-color: rgba(85, 239, 196, 0.15) !important;
-  color: #00b894 !important
+  background-color: rgba(85, 239, 196, 0.15) !important
 }
 
 .theme-light .callout[data-callout="success"] .callout-title {
@@ -3206,8 +3261,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 }
 
 .theme-light .callout[data-callout="example"] {
-  background-color: rgba(162, 155, 254, 0.15) !important;
-  color: #6c5ce7 !important
+  background-color: rgba(162, 155, 254, 0.15) !important
 }
 
 .theme-light .callout[data-callout="example"] .callout-title {
@@ -3224,8 +3278,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 }
 
 .theme-light .callout[data-callout="quote"] {
-  background-color: rgba(178, 190, 195, 0.15) !important;
-  color: #636e72 !important
+  background-color: rgba(178, 190, 195, 0.15) !important
 }
 
 .theme-light .callout[data-callout="quote"] .callout-title {
@@ -3244,7 +3297,6 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 .theme-light .callout[data-callout="danger"],
 .theme-light .callout[data-callout="error"] {
   background-color: rgba(214, 48, 49, 0.15) !important;
-  color: #d63031 !important;
   border-left-color: #d63031 !important
 }
 
@@ -3275,8 +3327,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 
 .theme-light .callout[data-callout="failure"],
 .theme-light .callout[data-callout="missing"] {
-  background-color: rgba(45, 52, 54, 0.05) !important;
-  color: #c0392b !important
+  background-color: rgba(45, 52, 54, 0.05) !important
 }
 
 .theme-light .callout[data-callout="failure"] .callout-title {
@@ -3295,8 +3346,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 .theme-light .callout[data-callout="question"],
 .theme-light .callout[data-callout="faq"],
 .theme-light .callout[data-callout="help"] {
-  background-color: rgba(253, 203, 110, 0.15) !important;
-  color: #f39c12 !important
+  background-color: rgba(253, 203, 110, 0.15) !important
 }
 
 .theme-light .callout[data-callout="question"] .callout-title {
@@ -3315,8 +3365,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
 .theme-light .callout[data-callout="abstract"],
 .theme-light .callout[data-callout="summary"],
 .theme-light .callout[data-callout="tldr"] {
-  background-color: rgba(129, 236, 236, 0.2) !important;
-  color: #00cec9 !important
+  background-color: rgba(129, 236, 236, 0.2) !important
 }
 
 .theme-light .callout[data-callout="abstract"] .callout-title {
@@ -3536,7 +3585,7 @@ body.theme-dark .markdown-preview-view pre:not([class]) {
   color: #ff5555
 }
 
-.theme-dark .callout[data-callout="bug"] {
+*/ .theme-dark .callout[data-callout="bug"] {
   border-color: rgba(255, 85, 85, 0.4) !important;
   background-color: rgba(255, 85, 85, 0.1) !important
 }
@@ -4122,7 +4171,6 @@ body.layout-cards .workspace-sidedock-vault-profile {
 body.layout-cards:not(.is-mobile).theme-light .workspace-tab-container {
   border-radius: 20px 20px 10px 10px;
   border: 1px solid color-mix(in srgb, var(--primary-color), transparent 80%);
-  backdrop-filter: blur(20px);
   margin: 8px 10px;
   background-color: color-mix(in srgb, var(--primary-color), #fff 96%)
 }
@@ -4175,8 +4223,6 @@ body.layout-cards:not(.is-phone).theme-light .modal-container.mod-dim .modal,
 body.layout-cards:not(.is-phone).theme-light .status-bar {
   border-radius: var(--radius-xl);
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(15px) saturate(180%);
-  -webkit-backdrop-filter: blur(15px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.5);
   margin: 0 5px 5px 5px;
@@ -4188,7 +4234,7 @@ body.layout-cards:not(.is-mobile).theme-dark .workspace-tab-container {
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 8px 10px;
   background-color: var(--background-primary);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4)
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4)
 }
 
 body.layout-cards.theme-dark .mod-vertical:not(.mod-left-split):not(.mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
@@ -4227,8 +4273,6 @@ body.layout-cards:not(.is-phone).theme-dark .modal-container.mod-dim .modal,
 body.layout-cards:not(.is-phone).theme-dark .status-bar {
   border-radius: var(--radius-xl);
   background: rgba(30, 30, 30, 0.6);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   margin: 0 5px 5px 5px;
