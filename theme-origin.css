@@ -111,8 +111,20 @@ settings:
             - 
                 label: 🃏 Cards (Floating)
                 value: layout-cards
+    - 
+        id: rainbow-folders
+        title: 启用彩虹文件夹 (Rainbow Folders)
+        description: 启用后，侧边栏文件列表将变为多彩嵌套的玻璃容器风格，并带有动态类型图标。关闭则恢复 Obsidian 默认样式。
+        type: class-toggle
+                
 */
 
+
+/* =================================================================
+   文件列表样式 (File Explorer) - 彩虹玻璃容器版 (动态图标版)
+   特性：根目录彩虹容器 + 智能 SVG 变色图标 + 引导线
+   生效条件：仅在 Style Settings 中开启 "rainbow-folders" 时生效
+   ================================================================= */
 /* @settings
 name: 📏 Phycat spacing setting
 name.zh: 📏 Phycat 文章间距设置
@@ -361,6 +373,7 @@ settings:
         type: variable-number
         default: 1.5
 */
+
 :root {
   --h3-icon-shape: url("data:image/svg+xml;utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>");
   --h4-icon-shape: url("data:image/svg+xml;utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>");
@@ -1016,6 +1029,11 @@ body {
 .theme-dark .markdown-preview-view h3 .heading-collapse-indicator,
 .theme-light .markdown-preview-view h3 .heading-collapse-indicator {
   margin-inline-start: -43px !important
+}
+
+.theme-dark.h1-align-left .markdown-preview-view h1 .heading-collapse-indicator,
+.theme-light.h1-align-left .markdown-preview-view h1 .heading-collapse-indicator {
+  margin-inline-start: -50px !important
 }
 
 .markdown-source-view.mod-cm6 .cm-fold-indicator .collapse-indicator {
@@ -2068,7 +2086,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   left: -1.3rem !important;
-  top: calc((var(--line-height-customize) * 1.4em - var(--checkbox-size)) / 2) !important;
+  top: calc((var(--line-height-customize) * 1.1rem - var(--checkbox-size)) / 2) !important;
   width: var(--checkbox-size) !important;
   height: var(--checkbox-size) !important;
   z-index: 10;
@@ -2490,8 +2508,12 @@ body.theme-dark .markdown-source-view.mod-cm6 .cm-highlight:not([style*="backgro
 .markdown-source-view.mod-cm6 .cm-strong,
 .markdown-source-view.mod-cm6 strong {
   font-weight: bold;
-  display: inline-block;
-  transition: transform 0.2s cubic-bezier(0.5, 1.5, 0.5, 1), color 0.2s ease
+  display: inline;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease
 }
 
 body.theme-dark .markdown-preview-view strong,
@@ -2500,14 +2522,10 @@ body.theme-dark .markdown-source-view.mod-cm6 strong {
   color: var(--primary-color)
 }
 
-body.theme-dark .markdown-preview-view strong:hover {
-  transform: translateY(-2px) scale(1.1);
-  text-shadow: 0 0 10px var(--primary-color);
-  z-index: 1
-}
-
+body.theme-dark .markdown-preview-view strong:hover,
 body.theme-dark .markdown-source-view.mod-cm6 .cm-strong:hover,
 body.theme-dark .markdown-source-view.mod-cm6 strong:hover {
+  border-bottom-color: var(--primary-color);
   text-shadow: 0 0 10px var(--primary-color);
   z-index: 1
 }
@@ -2518,16 +2536,12 @@ body.theme-light .markdown-source-view.mod-cm6 strong {
   color: var(--text-bold)
 }
 
-body.theme-light .markdown-preview-view strong:hover {
-  transform: translateY(-2px) scale(1.03);
-  text-shadow: none;
-  color: var(--primary-color) !important
-}
-
+body.theme-light .markdown-preview-view strong:hover,
 body.theme-light .markdown-source-view.mod-cm6 .cm-strong:hover,
 body.theme-light .markdown-source-view.mod-cm6 strong:hover {
-  text-shadow: none;
-  color: var(--primary-color) !important
+  color: var(--primary-color) !important;
+  border-bottom-color: color-mix(in srgb, var(--primary-color), transparent 70%);
+  text-shadow: 0 2px 10px color-mix(in srgb, var(--primary-color), transparent 60%)
 }
 
 .markdown-preview-view em,
@@ -4496,4 +4510,357 @@ body.layout-cards:not(.is-phone).theme-dark .status-bar {
 .codeblock-customizer-line-number,
 .codeblock-customizer-line-number-specific {
   background: transparent
+}
+
+body.rainbow-folders .nav-folder {
+  --nav-c-pink: #ff7096;
+  --nav-c-cyan: #3db8bf;
+  --nav-c-orange: #f59e0b;
+  --nav-c-green: #11aa63;
+  --nav-c-purple: #A06EB4;
+  --nav-c-red: #aa1141;
+  --nav-c-blue: #1D4E89;
+  --folder-color: var(--text-muted);
+  --nav-item-background-hover: color-mix(in srgb, var(--folder-color), transparent 95%);
+  --background-modifier-active-hover: color-mix(in srgb, var(--primary-color), transparent 95%)
+}
+
+body.rainbow-folders .nav-files-container {
+  --folder-color: var(--primary-color);
+  --nav-item-background-hover: color-mix(in srgb, var(--primary-color), transparent 95%);
+  --background-modifier-active-hover: color-mix(in srgb, var(--primary-color), transparent 90%)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+1) {
+  --folder-color: var(--nav-c-pink)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+2) {
+  --folder-color: var(--nav-c-cyan)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+3) {
+  --folder-color: var(--nav-c-orange)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+4) {
+  --folder-color: var(--nav-c-green)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+5) {
+  --folder-color: var(--nav-c-purple)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+6) {
+  --folder-color: var(--nav-c-red)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder:nth-child(7n+7) {
+  --folder-color: var(--nav-c-blue)
+}
+
+body.rainbow-folders .nav-files-container>div>.nav-folder {
+  margin: 0 0 8px 0 !important;
+  padding: 0px 0 !important;
+  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--folder-color) !important;
+  transition: background-color 0.2s ease
+}
+
+body.rainbow-folders .nav-folder .nav-folder {
+  border-left: none !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0
+}
+
+body.rainbow-folders .nav-folder.is-collapsed {
+  padding-bottom: 0 !important
+}
+
+body.rainbow-folders .nav-folder-title {
+  padding: 6px 8px !important;
+  margin: 1px 0 !important;
+  border-radius: 6px;
+  font-weight: 500;
+  color: var(--folder-color);
+  display: flex;
+  align-items: center
+}
+
+body.rainbow-folders .nav-folder .nav-folder .nav-folder-title-content {
+  opacity: 0.9
+}
+
+body.rainbow-folders .nav-folder-title:hover {
+  background-color: var(--background-modifier-hover)
+}
+
+body.rainbow-folders .nav-folder-collapse-indicator,
+body.rainbow-folders .nav-folder .collapse-icon {
+  display: none !important
+}
+
+body.rainbow-folders .nav-folder-children {
+  margin-left: 14px !important;
+  padding-left: 10px !important;
+  border-left: 1px solid color-mix(in srgb, var(--folder-color), transparent 70%)
+}
+
+body.rainbow-folders .nav-folder:hover>.nav-folder-children {
+  border-left-color: color-mix(in srgb, var(--folder-color), transparent 40%)
+}
+
+body.rainbow-folders .nav-folder-title-content::before,
+body.rainbow-folders .nav-file-title-content::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: transform 0.2s ease, opacity 0.2s ease
+}
+
+body.rainbow-folders .nav-file-title-content::before {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6
+}
+
+body.rainbow-folders .nav-file-title:hover .nav-file-title-content::before {
+  opacity: 0.9
+}
+
+body.rainbow-folders .nav-folder-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/%3E%3C/svg%3E");
+  opacity: 0.8
+}
+
+body.rainbow-folders .nav-folder:not(.is-collapsed)>.nav-folder-title .nav-folder-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+  opacity: 1
+}
+
+body.rainbow-folders .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E")
+}
+
+body.rainbow-folders .nav-file-title[data-path$=".png" i] .nav-file-title-content::before,
+body.rainbow-folders .nav-file-title[data-path$=".jpg" i] .nav-file-title-content::before,
+body.rainbow-folders .nav-file-title[data-path$=".jpeg" i] .nav-file-title-content::before,
+body.rainbow-folders .nav-file-title[data-path$=".gif" i] .nav-file-title-content::before,
+body.rainbow-folders .nav-file-title[data-path$=".svg" i] .nav-file-title-content::before,
+body.rainbow-folders .nav-file-title[data-path$=".webp" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E")
+}
+
+body.rainbow-folders .nav-file-title[data-path$=".canvas" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='9' x='3' y='3' rx='1'/%3E%3Crect width='7' height='5' x='14' y='3' rx='1'/%3E%3Crect width='7' height='9' x='14' y='12' rx='1'/%3E%3Crect width='7' height='5' x='3' y='16' rx='1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='9' x='3' y='3' rx='1'/%3E%3Crect width='7' height='5' x='14' y='3' rx='1'/%3E%3Crect width='7' height='9' x='14' y='12' rx='1'/%3E%3Crect width='7' height='5' x='3' y='16' rx='1'/%3E%3C/svg%3E")
+}
+
+body.rainbow-folders .nav-file-title[data-path$=".base" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E")
+}
+
+body.theme-light.rainbow-folders .nav-files-container>div>.nav-folder {
+  background-color: color-mix(in srgb, var(--folder-color), transparent 96%);
+  border-top: 1px solid color-mix(in srgb, var(--folder-color), transparent 92%);
+  border-bottom: 1px solid color-mix(in srgb, var(--folder-color), transparent 92%);
+  border-right: 1px solid color-mix(in srgb, var(--folder-color), transparent 92%)
+}
+
+body.theme-light.rainbow-folders .nav-files-container>div>.nav-folder:hover {
+  background-color: color-mix(in srgb, var(--folder-color), transparent 92%)
+}
+
+body.theme-dark.rainbow-folders .nav-files-container>div>.nav-folder {
+  background-color: color-mix(in srgb, var(--folder-color), transparent 96%);
+  border-top: 1px solid color-mix(in srgb, var(--folder-color), transparent 95%);
+  border-bottom: 1px solid color-mix(in srgb, var(--folder-color), transparent 95%);
+  border-right: 1px solid color-mix(in srgb, var(--folder-color), transparent 95%)
+}
+
+body.theme-dark.rainbow-folders .nav-files-container>div>.nav-folder:hover {
+  background-color: color-mix(in srgb, var(--folder-color), transparent 92%)
+}
+
+body.rainbow-folders .nav-file-title {
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  color: var(--text-muted)
+}
+
+body.rainbow-folders .nav-file-title:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal)
+}
+
+body.rainbow-folders .nav-file-title.is-active {
+  background-color: var(--background-modifier-active-hover);
+  color: var(--primary-color);
+  font-weight: 600
+}
+
+body.rainbow-folders .nav-file-title.is-active .nav-file-title-content::before {
+  background-color: var(--primary-color);
+  opacity: 1
+}
+
+@media (hover:hover) {
+  body.rainbow-folders:not(.is-grabbing) .tree-item-self.is-clickable:hover {
+    color: var(--folder-color);
+    font-weight: bolder
+  }
+}
+
+.nav-files-container>div>.nav-folder {
+  margin: 0 0 8px 0 !important;
+  padding: 0 !important;
+  border-left: 3px solid var(--folder-color) !important;
+  border-radius: 0 6px 6px 0;
+  transition: background-color 0.2s ease
+}
+
+.nav-folder .nav-folder {
+  border-left: none !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0
+}
+
+.nav-folder.is-collapsed {
+  padding-bottom: 0 !important
+}
+
+.nav-folder-title {
+  padding: 4px 6px !important;
+  margin: 1px 0 !important;
+  border-radius: 4px;
+  font-weight: 500;
+  color: var(--folder-color);
+  display: flex;
+  align-items: center
+}
+
+.nav-files-container>div>.nav-folder>.nav-folder-title {
+  padding-left: 8px !important
+}
+
+.nav-folder .nav-folder .nav-folder-title-content {
+  opacity: 0.9
+}
+
+.nav-folder-title:hover {
+  background-color: var(--background-modifier-hover)
+}
+
+.nav-folder-collapse-indicator,
+.nav-folder .collapse-icon {
+  display: none !important
+}
+
+.nav-folder-title-content::before,
+.nav-file-title-content::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: transform 0.2s ease, opacity 0.2s ease
+}
+
+.nav-file-title-content::before {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6
+}
+
+.nav-file-title:hover .nav-file-title-content::before {
+  opacity: 0.9
+}
+
+.nav-folder-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/%3E%3C/svg%3E");
+  opacity: 0.8
+}
+
+.nav-folder:not(.is-collapsed)>.nav-folder-title .nav-folder-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+  opacity: 1
+}
+
+.nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E")
+}
+
+.nav-file-title[data-path$=".png" i] .nav-file-title-content::before,
+.nav-file-title[data-path$=".jpg" i] .nav-file-title-content::before,
+.nav-file-title[data-path$=".jpeg" i] .nav-file-title-content::before,
+.nav-file-title[data-path$=".gif" i] .nav-file-title-content::before,
+.nav-file-title[data-path$=".svg" i] .nav-file-title-content::before,
+.nav-file-title[data-path$=".webp" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E")
+}
+
+.nav-file-title[data-path$=".canvas" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='9' x='3' y='3' rx='1'/%3E%3Crect width='7' height='5' x='14' y='3' rx='1'/%3E%3Crect width='7' height='9' x='14' y='12' rx='1'/%3E%3Crect width='7' height='5' x='3' y='16' rx='1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='9' x='3' y='3' rx='1'/%3E%3Crect width='7' height='5' x='14' y='3' rx='1'/%3E%3Crect width='7' height='9' x='14' y='12' rx='1'/%3E%3Crect width='7' height='5' x='3' y='16' rx='1'/%3E%3C/svg%3E")
+}
+
+.nav-file-title[data-path$=".base" i] .nav-file-title-content::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E")
+}
+
+.nav-file-title {
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  color: var(--text-muted)
+}
+
+.nav-file-title:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal)
+}
+
+.nav-file-title.is-active {
+  background-color: var(--background-modifier-active-hover);
+  color: var(--primary-color);
+  font-weight: 600
+}
+
+.nav-file-title.is-active .nav-file-title-content::before {
+  background-color: var(--primary-color);
+  opacity: 1
+}
+
+@media (hover:hover) {
+  body:not(.is-grabbing) .tree-item-self.is-clickable:hover {
+    color: var(--folder-color);
+    font-weight: bolder
+  }
 }
