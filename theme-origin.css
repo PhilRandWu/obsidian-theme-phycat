@@ -2074,6 +2074,56 @@ body {
   margin-right: 4px
 }
 
+.image-embed[alt*="right" i],
+.image-embed[alt*="+R" i],
+.image-embed[alt*="left" i],
+.image-embed[alt*="+L" i],
+.image-embed[alt*="center" i],
+.image-embed[alt*="+C" i],
+.image-embed[alt*="banner" i] {
+  display: flex !important;
+  width: 100% !important;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem
+}
+
+.image-embed[alt*="right" i],
+.image-embed[alt*="+R" i] {
+  justify-content: flex-end
+}
+
+.image-embed[alt*="left" i],
+.image-embed[alt*="+L" i] {
+  justify-content: flex-start
+}
+
+.image-embed[alt*="center" i],
+.image-embed[alt*="+C" i] {
+  justify-content: center
+}
+
+.image-embed[alt*="right" i] img,
+.image-embed[alt*="+R" i] img,
+.image-embed[alt*="left" i] img,
+.image-embed[alt*="+L" i] img,
+.image-embed[alt*="center" i] img,
+.image-embed[alt*="+C" i] img {
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05)
+}
+
+.image-embed[alt*="banner" i] {
+  justify-content: center
+}
+
+.image-embed[alt*="banner" i] img {
+  width: 100% !important;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05)
+}
+
 .markdown-preview-view ul.contains-task-list {
   margin-left: 10px
 }
