@@ -116,6 +116,15 @@ settings:
         title: 启用彩虹文件夹 (Rainbow Folders)
         description: 启用后，侧边栏文件列表将变为多彩嵌套的玻璃容器风格，并带有动态类型图标。关闭则恢复 Obsidian 默认样式。
         type: class-toggle
+    - 
+        id: bg-mix-percent
+        title: 背景色混合比例（Card模式生效）
+        description: 调整背景色中白色的混合程度（数值越大越白，默认为 90）。
+        type: variable-number-slider
+        default: 90
+        min: 0
+        max: 100
+        step: 1
                 
 */
 
@@ -852,7 +861,7 @@ body.theme-light {
   --glow-shadow-text: 0 0 5px var(--glow-color);
   --glow-shadow-box: 0 0 5px var(--glow-color);
   --background-primary: color-mix(in srgb, var(--bg-color), #fff 2%);
-  ;
+  --background-card: color-mix(in srgb, var(--primary-color), #FFF calc(var(--bg-mix-percent) * 1%));
   --background-primary-alt: color-mix(in srgb, var(--bg-color), #000 3%);
   --background-secondary: color-mix(in srgb, var(--bg-color), #fff 5%);
   --background-secondary-alt: color-mix(in srgb, var(--bg-color), #000 8%);
@@ -1110,7 +1119,7 @@ body {
   width: 10px;
   height: 22px;
   border-radius: 6px;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   margin-top: -6px;
   left: 2px;
@@ -1126,7 +1135,7 @@ body {
   width: 10px;
   height: 22px;
   border-radius: 6px;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   margin-top: 4px;
   left: 8px;
@@ -1438,7 +1447,7 @@ body {
 .theme-dark.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::before {
   content: "";
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   margin-top: -6px;
   left: 2px;
@@ -1454,7 +1463,7 @@ body {
 .theme-dark.h1-align-left .markdown-preview-view h1::after,
 .theme-dark.h1-align-left .markdown-source-view.mod-cm6 .HyperMD-header-1::after {
   bottom: auto;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   margin-top: 4px;
   left: 8px;
@@ -1815,7 +1824,7 @@ body {
   margin-top: 0.3rem;
   left: 0;
   width: 5px;
-  height: 18px;
+  height: 1.3rem;
   border-radius: 4px;
   background-color: var(--primary-color);
   opacity: 0.8;
@@ -4160,12 +4169,17 @@ body.layout-cards .workspace>.workspace-split {
 body.layout-cards .workspace-tab-header-container,
 body.layout-cards .workspace-tabs.mod-top .workspace-tab-header-container,
 body.layout-cards .workspace-ribbon.mod-left:before {
-  border-bottom: 1px solid transparent !important
+  border-bottom: 1px solid var(--background-card) !important
 }
 
 body.layout-cards .workspace-ribbon {
   border-right: transparent !important;
-  background-color: transparent
+  background-color: var(--background-card)
+}
+
+body.layout-cards .sidebar-toggle-button,
+body.layout-cards .workspace-tabs.mod-top {
+  background-color: var(--background-card)
 }
 
 body.layout-cards .workspace-ribbon.mod-left:before {
@@ -4191,8 +4205,8 @@ body.layout-cards .workspace-sidedock-vault-profile {
   border-top: transparent !important
 }
 
-body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
-  background-color: transparent
+body.layout-cards:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+  background-color: var(--background-card)
 }
 
 body.layout-cards:not(.is-mobile).theme-light .workspace-tab-container {
@@ -4863,4 +4877,9 @@ body.rainbow-folders .nav-file-title.is-active .nav-file-title-content::before {
     color: var(--folder-color);
     font-weight: bolder
   }
+}
+
+.codeblock-customizer-active-line-highlight .cm-active,
+.codeblock-customizer-active-line-highlight-editor .cm-active {
+  background-color: color-mix(in srgb, var(--primary-color), transparent 95%) !important
 }
