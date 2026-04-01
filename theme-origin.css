@@ -5030,6 +5030,7 @@ body.rainbow-folders .nav-file-title.is-active .nav-file-title-content::before {
   display: none !important
 }
 
+@layer phycat-file-icons {
 .nav-folder-title-content::before,
 .nav-file-title-content::before {
   content: "";
@@ -5091,6 +5092,15 @@ body.rainbow-folders .nav-file-title.is-active .nav-file-title-content::before {
 .nav-file-title[data-path$=".base" i] .nav-file-title-content::before {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M3 5V19A9 3 0 0 0 21 19V5'/%3E%3Cpath d='M3 12A9 3 0 0 0 21 12'/%3E%3C/svg%3E")
+}
+}
+
+/* If another plugin injects a file/folder icon element, hide the theme fallback pseudo-icon. */
+.nav-file-title-content:has(svg, .svg-icon, .iconize-icon, .nav-file-icon)::before,
+.nav-file-title:has(.nav-file-icon, .iconize-icon) .nav-file-title-content::before,
+.nav-folder-title-content:has(svg, .svg-icon, .iconize-icon, .nav-folder-icon)::before,
+.nav-folder-title:has(.nav-folder-icon, .iconize-icon) .nav-folder-title-content::before {
+  display: none;
 }
 
 .nav-file-title {
